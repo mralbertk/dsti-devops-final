@@ -5,7 +5,7 @@ This is the final assignment for the DevOps class taught at Data ScienceTech Ins
 The project contains a simple web API written in Python that is deployed using a variety of DevOps tools and processes.
 
 ## Installation
-1. Clone this repository: ```$ git clone my-repository```
+1. Clone this repository: ```$ git clone mralbertk/dsti-devops-final```
 2. Install redis: [Installing Redis](https://redis.io/docs/getting-started/installation/)
 3. [Install Python 3](https://www.python.org/downloads/) and dependencies:
 
