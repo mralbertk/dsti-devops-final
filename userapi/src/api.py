@@ -5,9 +5,9 @@ import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '..\\\\..'))
 
 from fastapi import FastAPI, HTTPException
-import src.api.db_redis as db_redis
-import src.models.user as user
-from src.api.decorators import validate_inputs
+import userapi.src.db_redis as db_redis
+import userapi.src.controllers.user as user
+from userapi.src.decorators import validate_inputs
 
 description = """
 userapi, created for the 'DevOps with Adaltas' class at DSTI in Spring 2022. 🖳

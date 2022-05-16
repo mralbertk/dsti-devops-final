@@ -1,6 +1,6 @@
 from fastapi.testclient import TestClient
 from pytest_redis import factories
-from src.api.api import app, db
+from userapi.src.api import app, db
 
 redis_external = factories.redisdb('redis_nooproc')
 

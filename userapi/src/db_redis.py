@@ -1,5 +1,5 @@
 import redis
-import conf.default as cfg
+import userapi.conf.default as cfg
 
 r = redis.Redis(
     host=cfg.redis_ip,

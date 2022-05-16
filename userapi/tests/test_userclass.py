@@ -1,4 +1,4 @@
-from src.models.user import User
+from userapi.src.controllers.user import User
 
 
 def test_user_class():
