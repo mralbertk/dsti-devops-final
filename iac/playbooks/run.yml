@@ -1,0 +1,12 @@
+---
+- hosts: userapi_server
+  become: true
+  roles:
+  - role: redis/install
+    tags: install
+
+  - role: fastapi/install
+    tags: install
+
+  - role: fastapi/test
+    tags: check

@@ -1,0 +1,48 @@
+---
+- name: Build tools for Python3.8 Installation
+  yum:
+    name:
+      - "@Development tools"
+      - openssl-devel
+    state:
+      present
+    update_cache:
+      yes
+
+- name: Create directory for Python source
+  file:
+    state:
+      directory
+    path:
+      /home/vagrant/python-source
+
+- name: Download Python 3.8
+  get_url:
+    url: https://www.python.org/ftp/python/3.8.13/Python-3.8.13.tgz
+    dest: /home/vagrant/python-source/
+
+- name: Unpack Python 3.8
+  ansible.builtin.unarchive:
+    src: /home/vagrant/python-source/Python-3.8.13.tgz
+    dest: /home/vagrant/python-source/
+
+- name: Install Python3.8
+  ansible.builtin.shell: |
+    cd /home/vagrant/python-source/Python-3.8.13/
+    ./configure --prefix=/usr --enable-optimizations 
+    make altinstall
+
+- name: Copy local API files to VM
+  ansible.builtin.copy:
+    src: /userapi
+    dest: /home/vagrant
+
+- name: Install dependencies
+  ansible.builtin.shell: |
+    cd /home/vagrant/userapi
+    python3.8 -m pip install -r requirements.txt
+
+- name: Start FastAPI Server
+  ansible.builtin.shell: |
+    cd /home/vagrant/userapi/src
+    uvicorn --host 0.0.0.0 --port 80 api:app &

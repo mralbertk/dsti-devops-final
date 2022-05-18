@@ -1,0 +1,29 @@
+---
+- name: Install redis
+  yum:
+    name:
+      - epel-release
+      - redis
+
+- name: Enable HTTP+HTTPS access
+  firewalld:
+    service: "{{ item }}"
+    permanent: yes
+    state: enabled
+  with_items:
+    - http
+    - https
+
+- name: Reload firewalld
+  service:
+    name: firewalld
+    state: reloaded
+
+- name: Ensure redis is present
+  yum: pkg=redis state=latest
+
+- name: Start redis
+  service:
+    name: redis
+    state: started
+    enabled: yes

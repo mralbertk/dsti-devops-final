@@ -2,7 +2,13 @@ import os
 import sys
 
 # Weird import 'hack' to enable sibling import
-sys.path.append(os.path.join(os.path.dirname(__file__), '..\\\\..'))
+PREFIX_WIN = '..\\\\..'
+PREFIX_UNIX = '../..'
+
+if sys.platform == "win32":
+    sys.path.append(os.path.join(os.path.dirname(__file__), PREFIX_WIN))
+else:
+    sys.path.append(os.path.join(os.path.dirname(__file__), PREFIX_UNIX))
 
 from fastapi import FastAPI, HTTPException
 import userapi.src.db_redis as db_redis

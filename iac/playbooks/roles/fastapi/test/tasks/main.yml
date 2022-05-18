@@ -1,0 +1,5 @@
+---
+- name: Test userapi
+  ansible.builtin.shell: |
+    cd /home/vagrant/userapi 
+    pytest -v --disable-warnings
