@@ -7,7 +7,8 @@ The project contains a simple web API written in Python that is deployed using a
 ## Installation
 1. Clone this repository: ```$ git clone mralbertk/dsti-devops-final```
 2. Install redis: [Installing Redis](https://redis.io/docs/getting-started/installation/)
-3. [Install Python 3](https://www.python.org/downloads/) and dependencies:
+3. Install Docker: [Get Docker](https://docs.docker.com/get-docker/)
+4. [Install Python 3](https://www.python.org/downloads/) and dependencies:
 
 ```bash 
 # Install dependencies
@@ -15,7 +16,9 @@ cd your/local/repository
 python3 -m pip install -r requirements.txt
 ```
 
-## Run 
+## Run
+
+### On localhost
 ```bash
 # Launch a local redis instance 
 redis-server --daemonize yes
@@ -25,10 +28,17 @@ cd .\src\api
 uvicorn api:app
 ```
 
-## Alternative Deployments 
-For additional installation, deployment and run instructions, see the relevant subdirectories:
+### Via Docker
+```bash
+# In repository root
+docker-compose up 
+```
 
-- [Vagrant](./iac/README.md)
+## Alternative Deployments 
+Additional installation, deployment and run instructions:
+
+- [Vagrant](./iac/)
+
 
 ## Use
 The API supports the following endpoints:
@@ -47,7 +57,8 @@ Full documentation is available at `/docs`. _(Note: FastAPI supports Swagger by 
 
 ### Task 2: Apply CI/CD Pipeline
 - Unit & Integration tests implemented with [pytest](https://docs.pytest.org/en/7.1.x/) in `./tests` 
-- Run locally from root directory with `pytest -v` _(dependencies must be installed)_
+- Run locally from root directory with `pytest -v` 
+- _Note: Dependencies must be installed & redis-server must be running for tests to work_
 
 ![](images/cicd-local-testing.png)
 
@@ -59,6 +70,15 @@ Full documentation is available at `/docs`. _(Note: FastAPI supports Swagger by 
 - Provisioned the box using Ansible local
 
 ![](images/vagrant-ansible.png)
+
+### Task 4: Build Docker Image
+- Available on [dockerhub](https://hub.docker.com/repository/docker/mralbertk/dsti-devops-fastapi)
+- Using a multi-stage build
+
+### Task 5: Container Orchestration with Docker Compose
+- Configured two containers and a docker volume to persist redis data dump
+
+![](images/docker-compose.png)
 
 ### Worthy Mentions
 

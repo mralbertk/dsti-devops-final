@@ -1,0 +1,25 @@
+version: "3.7"
+
+services:
+  redis:
+    image: redis:alpine
+    hostname: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - userapi-redis:/etc/redis/database/
+
+  userapi:
+    build: ./userapi
+    image: "userapi:3.8-alpine"
+    container_name: userapi
+    ports:
+      - 3000:8000
+    depends_on:
+      - redis
+    environment:
+      - REDIS_IP=redis
+      - REDIS_PORT=6379
+
+volumes:
+  userapi-redis:
