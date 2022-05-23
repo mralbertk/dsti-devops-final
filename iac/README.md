@@ -18,7 +18,7 @@ vagrant up
 
 ## Use 
 - The API is accessible on `localhost:3000`
-- For more information, refer to top-level [documentation](../README.md)
+- For more information, refer to top-level [documentation](../)
 
 ## Cleanup 
 - To pause the virtual machine: `vagrant halt`

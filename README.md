@@ -5,7 +5,7 @@ This is the final assignment for the DevOps class taught at Data ScienceTech Ins
 The project contains a simple web API written in Python that is deployed using a variety of DevOps tools and processes.
 
 ## Installation
-1. Clone this repository: ```$ git clone mralbertk/dsti-devops-final```
+1. Clone this repository: ```git clone mralbertk/dsti-devops-final```
 2. Install redis: [Installing Redis](https://redis.io/docs/getting-started/installation/)
 3. Install Docker: [Get Docker](https://docs.docker.com/get-docker/)
 4. [Install Python 3](https://www.python.org/downloads/) and dependencies:
@@ -38,6 +38,7 @@ docker-compose up
 Additional installation, deployment and run instructions:
 
 - [Vagrant](./iac/)
+- [Kubernetes](./k8s/)
 
 
 ## Use
@@ -80,19 +81,46 @@ Full documentation is available at `/docs`. _(Note: FastAPI supports Swagger by 
 
 ![](images/docker-compose.png)
 
+### Task 6: Container Orchestration with Kubernetes 
+- Configured with two deployments and one service
+- First deployment: FastAPI frontend 
+- Second deployment: redis backend (with persistent volume claim)
+- Service: Configured as described [here on Stackoverflow](https://stackoverflow.com/a/50221754) to connect both 
+deployments and link FastAPI to redis via DNS
+
+![](images/k8s-implementation.png)
+
+![](images/api-on-k8s.png)
+_Note the IP in the request URL matches the `userapi-service` external ip_
+
 ### Worthy Mentions
 
 #### Web Application
-
-- I initially built a tasklist in NodeJS with a MongoDB backend based on [this tutorial](url) but 
-switched to Python when I could not get the tests to work properly after hours of trying. 
+I initially built a tasklist in NodeJS with a MongoDB backend based on [this tutorial](url) but switched to Python when 
+I could not get the tests to work properly. Experimenting with NodeJS was interesting, but I am not familiar with the 
+language and trying to learn it took too much time away from focussing on the real meat of this project, the DevOps 
+workflows.
 
 #### Vagrant & Ansible
-- It was unexpectedly difficult to find a version of Centos/7 that could run with _sync folders_ on a windows file
+It was unexpectedly difficult to find a version of Centos/7 that could run with _sync folders_ on a Windows file
 system. I ended up using a custom box uploaded by a community member that had the required guest tools installed.
-- Centos/7 was not the best choice for my application: My application uses FastAPI which requires Python 3.7, Centos/7 
-by default comes with Python 3.6.x. Installing Python 3.8 on the virtual box was interesting, but I would avoid doing
-this for a real project.
+
+Still, Centos/7 was not the best choice: My application uses FastAPI which requires Python 3.7, yet Centos/7 comes with
+Python 3.6.x. I opted to use Python 3.8 as the latest "fully developed" version  Python, and installing it on the box
+was an interesting experience. That said, in the future I'd rather look for an OS that supports the version of Python 
+I need out of the box.
+
+#### Kubernetes 
+I believe it would have been much easier to work with one single deployment that includes the FastAPI container and
+the redis container. However, I really wanted to build the solution with separate deployments for the app and the DB 
+that can scale individually.
+
+One error I made early one was to only connect the FastAPI pod to the service, assuming that pods from both deployments
+would be able to network on the cluster. When it didn't work, I couldn't really figure out what was wrong. 
+
+But  fortunately, a good friend of mine is the Lead SRE for World of Warcraft ... I asked him for troubleshooting tips, 
+and he pointed out that both pods needed to be connected to a service in order to communicate. From there, I found the 
+[post on Stackoverflow](https://stackoverflow.com/a/50221754) that helped me solve the problem.
 
 ## Author
 **Albert KONRAD**  

@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userapi-redis
+  labels:
+    app:
+      userapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: userapi
+  template:
+    metadata:
+      labels:
+        app: userapi
+    spec:
+      volumes:
+        - name: userapi-redis-volume
+          persistentVolumeClaim:
+            claimName: redis-pv-claim
+      containers:
+        - name: redis
+          image: redis
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+            - mountPath: "/etc/redis/database/"
+              name: userapi-redis-volume
