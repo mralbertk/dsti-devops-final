@@ -2,7 +2,7 @@
 This directory contains a deployment of the simple web application on Kubernetes using Minikube.
 
 ## Installation 
-1. Clone this repository: ```$ git clone mralbertk/dsti-devops-final```
+1. Clone this repository: ```git clone mralbertk/dsti-devops-final```
 2. Install Virtualbox: [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 3. Install Docker: [Get Docker](https://docs.docker.com/get-docker/)
 4. Install Minikube: [minikube start](https://minikube.sigs.k8s.io/docs/start/)
@@ -38,7 +38,7 @@ _*Note: Recommended specs for minikube are 1 CPUs and 2048 MB of memory but (muc
 ## Use 
 - Get the external IP of the cluster: `kubectl get svc `
 - Connect to FastAPI and Kubernetes using the external cluster IP and port (default 3000).
-- For more information, refer to top-level [documentation](../)
+- For more information, refer to top-level [documentation](../README.md)
 
 ## Cleanup 
 - Stop the minikube cluster: `minikube stop`

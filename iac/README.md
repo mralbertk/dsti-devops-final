@@ -3,7 +3,7 @@ This directory contains a deployment of the simple web application using a _Infr
 Vagrant and Ansible.
 
 ## Installation 
-1. Clone this repository: ```$ git clone mralbertk/dsti-devops-final```
+1. Clone this repository: ```git clone mralbertk/dsti-devops-final```
 2. Install Virtualbox: [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 3. Install Vagrant: [Installing Vagrant](https://www.vagrantup.com/docs/installation)
 
@@ -18,7 +18,7 @@ vagrant up
 
 ## Use 
 - The API is accessible on `localhost:3000`
-- For more information, refer to top-level [documentation](../)
+- For more information, refer to top-level [documentation](../README.md)
 
 ## Cleanup 
 - To pause the virtual machine: `vagrant halt`
