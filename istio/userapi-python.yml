@@ -1,0 +1,165 @@
+# ******************
+#   API Service
+#*******************
+apiVersion: v1
+kind: Service
+metadata:
+  name: userapi-api
+  labels:
+    app: userapi-api
+    service: userapi-api
+spec:
+  ports:
+  - port: 3000
+    targetPort: 8000
+  selector:
+    app: userapi-api
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: acc-userapi-api
+  labels:
+    account: userapi-api
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userapi-api-v1
+  labels:
+    app: userapi-api
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: userapi-api
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: userapi-api
+        version: v1
+    spec:
+      serviceAccountName: acc-userapi-api
+      containers:
+        - name: fastapi
+          image: mralbertk/dsti-devops-fastapi:v1
+          env:
+            - name: REDIS_IP
+              value: "userapi-db.default.svc.cluster.local"
+          ports:
+            - containerPort: 8000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userapi-api-v2
+  labels:
+    app: userapi-api
+    version: v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: userapi-api
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: userapi-api
+        version: v2
+    spec:
+      serviceAccountName: acc-userapi-api
+      containers:
+        - name: fastapi
+          image: mralbertk/dsti-devops-fastapi:v2
+          env:
+            - name: REDIS_IP
+              value: "userapi-db.default.svc.cluster.local"
+          ports:
+            - containerPort: 8000
+---
+# ******************
+#     DB Service
+#*******************
+apiVersion: v1
+kind: Service
+metadata:
+  name: userapi-db
+  labels:
+    app: userapi-db
+    service: userapi-db
+spec:
+  ports:
+  - port: 6379
+  selector:
+    app: userapi-db
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: acc-userapi-db
+  labels:
+    account: userapi-db
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: redis-pv
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/etc/redis/database/"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userapi-redis
+  labels:
+    app:
+      userapi-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: userapi-db
+  template:
+    metadata:
+      labels:
+        app: userapi-db
+    spec:
+      serviceAccountName: acc-userapi-db
+      volumes:
+        - name: userapi-redis-volume
+          persistentVolumeClaim:
+            claimName: redis-pv-claim
+      containers:
+        - name: redis
+          image: redis
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+            - mountPath: "/etc/redis/database/"
+              name: userapi-redis-volume
+
+
+

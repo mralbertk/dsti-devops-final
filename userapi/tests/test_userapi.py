@@ -19,14 +19,14 @@ def test_main_responds():
     """Default response by root should be 'Hello, World!'"""
     response = client.get("/")
     assert response.status_code == 200
-    assert response.json() == {"msg": "Hello, World!"}
+    assert response.json() == {"message": "Hello, World!"}
 
 
 def test_health_check():
     """Confirm health check is working"""
     response = client.get("/health")
     assert response.status_code == 200
-    assert response.json() == {"msg": "OK"}
+    assert response.json() == {"message": "OK"}
 
 
 def test_user_create():

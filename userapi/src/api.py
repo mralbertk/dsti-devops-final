@@ -41,13 +41,13 @@ db = db_redis.r
 @app.get("/")
 async def read_main() -> dict:
     """Root"""
-    return {"msg": "Hello, World!"}
+    return {"message": "Hello, World!"}
 
 
 @app.get("/health")
 async def health_check() -> dict:
     """API health check"""
-    return {"msg": "OK"}
+    return {"message": "OK"}
 
 
 @app.post("/user")
@@ -76,7 +76,7 @@ async def add_user(fname: str = None,
 
     # Write new user to DB
     db_redis.r.hmset(new_user.hash_id, new_user.details)
-    return {'msg': 'User created', 'values': new_user.details}
+    return {'message': 'User created', 'values': new_user.details}
 
 
 @app.get("/user")
@@ -121,7 +121,7 @@ async def update_user(old_fname: str = None,
 
     db.delete(old_user.hash_id)
     db.hmset(new_user.hash_id, new_user.details)
-    return {'msg': 'User updated',
+    return {'message': 'User updated',
             'old': old_user.details,
             'new': new_user.details}
 
@@ -143,4 +143,4 @@ async def delete_user(fname: str = None,
 
     # Delete user
     db.delete(del_user.hash_id)
-    return {'msg': 'User deleted'}
+    return {'message': 'User deleted'}

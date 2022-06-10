@@ -93,6 +93,17 @@ deployments and link FastAPI to redis via DNS
 ![](images/api-on-k8s.png)
 _Note the IP in the request URL matches the `userapi-service` external ip_
 
+### Task 7: Make a service mesh using Istio
+- [Re-configured the original k8s deployment](istio/userapi-python.yml) to function well with Istio
+  - Configured individual services for FastAPI and redis services
+  - Configured two virtual services for each deployment
+- Created a second version of the API and deployed both to the cluster
+- Configured traffic routing: 25% to v1 and 75% to v2
+- Also installed Prometheus and Kiali to access the dashboard
+
+![](images/istio-mesh-kiali.png)
+
+
 ### Worthy Mentions
 
 #### Web Application
@@ -121,6 +132,17 @@ would be able to network on the cluster. When it didn't work, I couldn't really 
 But  fortunately, a good friend of mine is the Lead SRE for World of Warcraft ... I asked him for troubleshooting tips, 
 and he pointed out that both pods needed to be connected to a service in order to communicate. From there, I found the 
 [post on Stackoverflow](https://stackoverflow.com/a/50221754) that helped me solve the problem.
+
+#### Istio
+My initial deployment with Istio was done fairly quickly; I simply installed it in addition to the existing K8s 
+deployment, injected the sidecar proxies  and configured the ingress gateway plus one virtual service that routed all 
+traffic to the existing load balancer. 
+
+However, I did not think that this was a particular satisfying solution. After all, instead of deploying a proper 
+service mesh I had only added some sidecar pods but the internal was managed by the load balancer, not via the envoys.
+
+So I spent a while studying the bookinfo example from the Istio quick start guide and re-configured my deployment to 
+have a proper service mesh.
 
 ## Author
 **Albert KONRAD**  
