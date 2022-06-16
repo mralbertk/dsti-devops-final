@@ -16,7 +16,7 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: userapi-destination
+  name: userapi-api
 spec:
   host: userapi-api.default.svc.cluster.local
   subsets:
@@ -40,7 +40,7 @@ metadata:
   name: userapi-api-vs
 spec:
   hosts:
-  - userapi-api
+  - "*"
   gateways:
   - userapi-gateway
   http:
