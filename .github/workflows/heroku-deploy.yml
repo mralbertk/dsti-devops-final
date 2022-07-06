@@ -1,0 +1,27 @@
+# Source: https://github.com/marketplace/actions/build-push-and-release-a-docker-container-to-heroku
+name: Deploy to Heroku
+
+on:
+  workflow_run:
+      workflows: [api-testing]
+      types:
+        - completed
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build, Push and Release a Docker container to Heroku.
+        uses: gonuit/heroku-docker-deploy@v1.3.3
+        with:
+          email: ${{ secrets.NON_PUBLIC_EMAIL }}
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          dockerfile_directory: ./userapi
+          dockerfile_name: Dockerfile
+          docker_options: "--no-cache"
+          process_type: web

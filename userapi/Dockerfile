@@ -14,4 +14,4 @@ ENV PATH="/opt/venv/bin:$PATH"
 COPY . /userapi
 WORKDIR /userapi/src
 EXPOSE 3000
-CMD uvicorn api:app --host 0.0.0.0
+CMD uvicorn api:app --host 0.0.0.0 --port ${PORT:-8000}
