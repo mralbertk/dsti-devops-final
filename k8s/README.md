@@ -17,7 +17,7 @@ kubectl apply -f your/local/repository/k8s
 ````
 
 ### Note: For Windows Users
-The deployment can be slighly more complicated when running on Windows:
+The deployment can be slightly more complicated when running on Windows:
 
 1. Make sure VirtualBox and Docker are running on your system
 2. Launch PowerShell **with Administrator privileges**
@@ -30,13 +30,13 @@ The deployment can be slighly more complicated when running on Windows:
 
     `minikube tunnel`
 
-4. Deploy userapi to Kubernetes as desribed above.
+4. Deploy userapi to Kubernetes as described above.
 5. Get the external cluster IP and port as described above.
 
 _*Note: Recommended specs for minikube are 1 CPUs and 2048 MB of memory but (much) more is better._
 
 ## Use 
-- Get the external IP of the cluster: `kubectl get svc `
+- Get the external IP of the cluster: `kubectl get svc`
 - Connect to FastAPI and Kubernetes using the external cluster IP and port (default 3000).
 - For more information, refer to top-level [documentation](../README.md)
 

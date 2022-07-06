@@ -63,6 +63,12 @@ Full documentation is available at `/docs`. _(Note: FastAPI supports Swagger by 
 
 ![](images/cicd-local-testing.png)
 
+- Continuous deployment to Heroku configured: [python-userapi.herokuapp.com](https://python-userapi.herokuapp.com/)
+- Deployed as Docker container via workflow: [heroku-deploy.yml](/.github/workflows/heroku-deploy.yml)
+- Note that the app is not fully functional on Heroku due to the absence of a working redis instance 
+
+![](images/cicd-heroku.png)
+
 ### Task 3: Infrastructure as Code with Vagrant & Ansible
 - Configured a Centos/7 VM using Vagrant and Virtualbox
 
@@ -111,6 +117,24 @@ I initially built a tasklist in NodeJS with a MongoDB backend based on [this tut
 I could not get the tests to work properly. Experimenting with NodeJS was interesting, but I am not familiar with the 
 language and trying to learn it took too much time away from focussing on the real meat of this project, the DevOps 
 workflows.
+
+#### CI/CD 
+With a Python implementation I found it much easier to set up the basic unit and integration testing workflows. That 
+said, continuous delivery took me quite a while because the 
+[Github/Heroku integration was unavailable from April 15 to May 25](https://status.heroku.com/incidents/2413). I 
+considered alternative deployments (for example via AWS App Runner) but since I've already done a more complex AWS 
+deployment in [another DSTI project](https://github.com/mralbertk/coral-detector/tree/main/deployments/aws), I decided 
+to give Heroku another try.
+
+Unfortunately, I couldn't get the direct deployment workflow we tested in class to function: No matter what command I 
+tested in the procfile, the deployment failed with permission errors when executing the `uvicorn app:api` command. I
+believe this was due to the structure of my app: The entire directory `userapi/` is deployed, but the run command needs
+to be executed in `userapi/src/`. One option was to duplicate the `requirements.txt` file in the `src/` directory but
+that wouldn't have been an elegant solution ... so I decided to deploy in a docker container instead.
+
+This deployment required only one change to the existing code that does not affect any of the other deployments: I 
+added `--port ${PORT:-8000}` to the docker run command, so it can pick up the dynamically assigned port on Heroku while
+remaining unchanged in all other environments (at least those that do not have `$PORT` set ...).
 
 #### Vagrant & Ansible
 It was unexpectedly difficult to find a version of Centos/7 that could run with _sync folders_ on a Windows file

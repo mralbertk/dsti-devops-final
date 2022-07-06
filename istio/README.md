@@ -21,7 +21,7 @@ kubectl label namespace my-namespace istio-injection=enabled
 # Deploy userapi to cluster 
 kubectl apply -f your/local/repository/istio/userapi-python.yml -n my-namespace
 
-# Deploy iostio service mesh to cluster
+# DeployIistio service mesh to cluster
 kubectl apply -f your/local/repository/istio/userapi-gateway.yml -n my-namespace
 ````
 
