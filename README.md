@@ -83,15 +83,15 @@ Full documentation is available at `/docs`. _(Note: FastAPI supports Swagger by 
 
 ### Task 4: Build Docker Image
 - Available on [dockerhub](https://hub.docker.com/repository/docker/mralbertk/dsti-devops-fastapi)
-- Configured as multi-stage build
+- Configured as multi-stage build: [Dockerfile](./userapi/Dockerfile)
 
 ### Task 5: Container Orchestration with Docker Compose
-- Configured two containers and a docker volume to persist redis data dump
+- Configured two services and a docker volume to persist redis data dump: [docker-compose.yml](./docker-compose.yml)
 
 ![](images/docker-compose.png)
 
 ### Task 6: Container Orchestration with Kubernetes 
-- Configured with two deployments and one service
+- Configured with two deployments and one service: [/k8s](./k8s)
 - First deployment: FastAPI frontend 
 - Second deployment: redis backend (with persistent volume claim)
 - Service: Configured as described [here on Stackoverflow](https://stackoverflow.com/a/50221754) to connect both 
@@ -203,17 +203,17 @@ slowed me down to the point where I spent more time troubleshooting than continu
 camel's back was when I noticed that Windows (or some other software on my system, the message is not very clear) 
 regularly terminates some process required by Grafana (see screenshot above).
 
+The ultimate learning from these issues is: When working with Minikube (and probably any other K8s cluster),
+do not do it on Windows.
+
 For the record, here are the main issues that plagued me during steps 6 to 8, all related to running Minikube on a 
 Windows machine:
-
-These are the other issues I encountered while working with Minikube that ultimately led me to not complete the last 
-step (but I struggled with them since step 6):
 
 - `minikube start` behaves unpredictably on Windows
   - The maximum configuration I can launch on Desktop & Laptop is 4 CPU cores and 16384 MB of RAM
     - For reference, my desktop PC has 24 cores and 32gb of RAM, my laptop has 12 cores and 32 GB of RAM
     - Any higher configuration would cause the `minikube start` command to hang indefinitely
-  - For no apparent reason, launching the `minikube` cluster with VirtualBox takes anytime between 3 and 25 minutes
+  - For no apparent reason, launching the `minikube` cluster with VirtualBox takes anytime between 5 and 25 minutes
   - In roughly 1/3 of the attempts, the cluster launch fails completely and needs to be re-started
   
 ![](images/minikube-error.png)  
